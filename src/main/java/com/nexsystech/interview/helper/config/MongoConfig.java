@@ -7,6 +7,7 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,15 +19,15 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import static java.util.Collections.singletonList;
 
 @Configuration
+@Slf4j
 public class MongoConfig {
 
-    @Value("${spring.data.mongodb.host}")
-    private String dbhost;
-    @Value("spring.data.mongodb.port")
-    private Integer port;
+    @Value("${spring.data.mongodb.uri}")
+    String mongodburi;
     @Bean
     public MongoClient mongo() {
-        ConnectionString connectionString = new ConnectionString("mongodb://"+ dbhost + ":" + port+"/admin");
+        ConnectionString connectionString = new ConnectionString(mongodburi);
+        log.info("connectionString for DB :", connectionString);
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
