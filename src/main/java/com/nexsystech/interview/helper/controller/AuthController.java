@@ -10,7 +10,9 @@ import com.nexsystech.interview.helper.model.response.JwtResponse;
 import com.nexsystech.interview.helper.model.response.MessageResponse;
 import com.nexsystech.interview.helper.repository.RoleRepository;
 import com.nexsystech.interview.helper.repository.UserRepository;
+import com.nexsystech.interview.helper.service.impl.SessionService;
 import com.nexsystech.interview.helper.service.impl.UserDetailsImpl;
+import com.nexsystech.interview.helper.service.impl.UserDetailsServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,19 +34,28 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    AuthenticationManager authenticationManager;
+    public AuthenticationManager authenticationManager;
 
     @Autowired
-    UserRepository userRepository;
+    public UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    public RoleRepository roleRepository;
 
     @Autowired
-    PasswordEncoder encoder;
+    public PasswordEncoder encoder;
 
     @Autowired
-    JwtUtils jwtUtils;
+    public SessionService sessionService;
+
+    @Autowired
+    public JwtUtils jwtUtils;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private UserDetailsImpl userDetails;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -53,6 +65,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
+        sessionService.createSession(loginRequest.getUsername(), jwt);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
@@ -119,5 +132,12 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String tokenHeader) {
+        String token = tokenHeader.substring(7);
+        sessionService.terminateSession(token);
+        return ResponseEntity.ok("Logged out successfully");
     }
 }

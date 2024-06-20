@@ -53,6 +53,14 @@
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.11.5</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -61,7 +69,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-
+<!--		<dependency>-->
+<!--			<groupId>com.google.cloud</groupId>-->
+<!--			<artifactId>google-cloud-speech</artifactId>-->
+<!--			<version>2.0.2</version>-->
+<!--		</dependency>-->
+		<!-- https://mvnrepository.com/artifact/net.sf.phat/sphinx4-core -->
+		<dependency>
+			<groupId>net.sf.phat</groupId>
+			<artifactId>sphinx4-core</artifactId>
+			<version>5prealpha</version>
+		</dependency>
 	</dependencies>
 
 	<build>
