@@ -1,0 +1,26 @@
+CREATE TABLE roles (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name ENUM('ROLE_USER', 'ROLE_MODERATOR', 'ROLE_ADMIN') NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE user_roles (
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (role_id) REFERENCES roles(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE sessions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    createdAt DATETIME(6),
+    jwtToken VARCHAR(255),
+    lastAccessedAt DATETIME(6),
+    userId BIGINT NOT NULL
+) ENGINE=InnoDB;

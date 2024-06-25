@@ -3,17 +3,18 @@ package com.nexsystech.interview.helper.service.impl;
 import com.nexsystech.interview.helper.entity.Session;
 import com.nexsystech.interview.helper.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-
+@Service
 public class SessionService {
     @Autowired
     private SessionRepository sessionRepository;
 
     public Session createSession(String userId, String jwtToken) {
         Session session = new Session();
-        session.setUserId(userId);
+        session.setUserId(Long.valueOf(userId));
         session.setJwtToken(jwtToken);
         session.setCreatedAt(LocalDateTime.now());
         session.setLastAccessedAt(LocalDateTime.now());
@@ -24,7 +25,7 @@ public class SessionService {
         return sessionRepository.findByJwtToken(jwtToken);
     }
 
-    public Optional<Session> getSessionByUserId(String userId) {
+    public Optional<Session> getSessionByUserId(Long userId) {
         return sessionRepository.findByUserId(userId);
     }
 
