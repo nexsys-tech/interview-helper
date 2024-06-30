@@ -14,7 +14,7 @@ public class SessionService {
 
     public Session createSession(String userId, String jwtToken) {
         Session session = new Session();
-        session.setUserId(Long.valueOf(userId));
+        session.setUserId(userId);
         session.setJwtToken(jwtToken);
         session.setCreatedAt(LocalDateTime.now());
         session.setLastAccessedAt(LocalDateTime.now());
@@ -25,7 +25,7 @@ public class SessionService {
         return sessionRepository.findByJwtToken(jwtToken);
     }
 
-    public Optional<Session> getSessionByUserId(Long userId) {
+    public Optional<Session> getSessionByUserId(String userId) {
         return sessionRepository.findByUserId(userId);
     }
 

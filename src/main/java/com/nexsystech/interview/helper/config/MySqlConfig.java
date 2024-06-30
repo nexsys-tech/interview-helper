@@ -20,34 +20,15 @@ import java.util.Properties;
 
 @Configuration
 public class MySqlConfig {
-    @Value("${spring.datasource.url}")
-    private String databaseUrl;
 
-    @Value("${spring.datasource.username}")
-    private String databaseUsername;
-
-    @Value("${spring.datasource.password}")
-    private String databasePassword;
-
-    @Value("${spring.datasource.driver-class-name}")
-    private String databaseDriverClassName;
-
-    @Value("${spring.jpa.properties.hibernate.dialect}")
-    private String hibernateDialect;
-
-    @Value("${spring.jpa.show-sql}")
-    private boolean showSql;
-
-    @Value("${spring.jpa.hibernate.ddl-auto}")
-    private String ddlAuto;
 
     @Bean
     public DataSource dataSource() {
         DataSourceBuilder dataSource = DataSourceBuilder.create();
-        dataSource.url(databaseUrl);
-        dataSource.username(databaseUsername);
-        dataSource.password(databasePassword);
-        dataSource.driverClassName(databaseDriverClassName);
+        dataSource.url("jdbc:mysql://localhost:3306/users");
+        dataSource.username("root");
+        dataSource.password("root");
+        dataSource.driverClassName("com.mysql.cj.jdbc.Driver");
         return dataSource.build();
     }
 
@@ -61,9 +42,9 @@ public class MySqlConfig {
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Properties jpaProperties = new Properties();
-        jpaProperties.put("hibernate.dialect", hibernateDialect);
-        jpaProperties.put("hibernate.show_sql", showSql);
-        jpaProperties.put("hibernate.hbm2ddl.auto", ddlAuto);
+        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        jpaProperties.put("hibernate.show_sql", true);
+        jpaProperties.put("hibernate.hbm2ddl.auto", "update");
 
         entityManagerFactoryBean.setJpaProperties(jpaProperties);
         return entityManagerFactoryBean;

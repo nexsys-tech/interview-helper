@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SessionRepository extends JpaRepository<Session,Long> {
+public interface SessionRepository extends JpaRepository<Session,String> {
     Optional<Session> findByJwtToken(String jwtToken);
-    Optional<Session> findByUserId(Long userId);
+    Optional<Session> findByUserId(String userId);
 
     void deleteByJwtToken(String jwtToken);
 }

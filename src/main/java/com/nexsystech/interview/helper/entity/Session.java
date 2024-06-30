@@ -22,7 +22,7 @@ public class Session {
 
     @NotBlank
     @Column(nullable = false)
-    private Long userId;
+    private String userId;
     private String jwtToken;
     private LocalDateTime createdAt;
     private LocalDateTime lastAccessedAt;

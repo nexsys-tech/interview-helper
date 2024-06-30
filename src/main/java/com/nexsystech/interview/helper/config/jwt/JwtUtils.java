@@ -18,11 +18,8 @@ import java.util.Date;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${interviewhelper.app.jwtSecret}")
-    private String jwtSecret;
-
-    @Value("${interviewhelper.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    private final String jwtSecret="F8132DA6545E23F9F9FCBA1FB6F9ADA751A558F81C8F4E5187304ABEA609DB40";
+    private final int jwtExpirationMs=86400000;
 
     public String generateJwtToken(Authentication authentication) {
 
